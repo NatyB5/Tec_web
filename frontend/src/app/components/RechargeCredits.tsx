@@ -38,13 +38,12 @@ export default function RechargeCredits({ onRecharge, currentBalance }: Recharge
 
     if (!isRecharging) {
         return (
-            <span 
-                className="recharge-balance"
+            <Button 
+                variant="primary"
                 onClick={() => setIsRecharging(true)}
-                style={{ cursor: 'pointer' }}
             >
-                Recarregar créditos
-            </span>
+                Recarregar
+            </Button>
         );
     }
 

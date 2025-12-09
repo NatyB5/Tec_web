@@ -191,7 +191,7 @@ export default function RoomsAdminPage() {
                         />
 
                         <div className="navbar-links">
-                            <a className="nav-links">Gerenciar Salas</a>
+                            <a className="nav-links" style={{ color: 'white' }}>Gerenciar Salas</a>
                         </div>
 
                         <div style={{ marginLeft: "auto", paddingRight: "40px", display: 'flex', gap: '10px' }}>

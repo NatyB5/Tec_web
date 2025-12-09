@@ -31,6 +31,43 @@ export default function UsersAdminPage() {
     const [token, setToken] = useState<string | null>(null);
     const router = useRouter();
 
+    const formatDecimal = (val: any): number => {
+        try {
+            if (typeof val === 'number') {
+                return val;
+            }
+            if (typeof val === 'string') {
+                return parseFloat(val) || 0;
+            }
+            if (typeof val === 'object' && val !== null && Array.isArray(val.d)) {
+                const sign = val.s || 1;
+                const exponent = val.e !== undefined ? val.e : 0;
+                let allDigits = '';
+                for (let i = 0; i < val.d.length; i++) {
+                    if (i === 0) {
+                        allDigits += val.d[i].toString();
+                    } else {
+                        allDigits += val.d[i].toString().padStart(7, '0');
+                    }
+                }
+                const decimalPosition = exponent + 1;
+                let numStr: string;
+                if (decimalPosition <= 0) {
+                    numStr = '0.' + '0'.repeat(-decimalPosition) + allDigits;
+                } else if (decimalPosition >= allDigits.length) {
+                    numStr = allDigits + '0'.repeat(decimalPosition - allDigits.length);
+                } else {
+                    numStr = allDigits.slice(0, decimalPosition) + '.' + allDigits.slice(decimalPosition);
+                }
+                return parseFloat(numStr) * sign;
+            }
+            return 0;
+        } catch (error) {
+            console.error('Erro na conversão de decimal:', error);
+            return 0;
+        }
+    };
+
     useEffect(() => {
         const storedToken = localStorage.getItem('bingoToken');
         setToken(storedToken);
@@ -85,10 +122,10 @@ export default function UsersAdminPage() {
 
             if (response.ok) {
                 const usersData = await response.json();
-                // Garantir que creditos seja um número
+                // Garantir que creditos seja um número usando formatDecimal
                 const processedUsers = usersData.map((user: any) => ({
                     ...user,
-                    creditos: Number(user.creditos) || 0
+                    creditos: formatDecimal(user.creditos)
                 }));
                 setUsers(processedUsers);
             } else {
@@ -229,7 +266,7 @@ export default function UsersAdminPage() {
                         />
 
                         <div className="navbar-links">
-                            <a className="nav-links">Gerenciar Usuários</a>
+                            <a className="nav-links" style={{ color: 'white' }}>Gerenciar Usuários</a>
                         </div>
 
                         <div style={{ marginLeft: "auto", paddingRight: "40px", display: 'flex', gap: '10px' }}>

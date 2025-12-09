@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../shared/prisma/prisma.service';
 
 @Injectable()
@@ -12,6 +12,14 @@ export class ReportsService {
     if (user.isAdmin) {
       // Admin
       if (targetUserId) {
+        // Verifica se o usuário existe
+        const userExists = await this.prisma.uSUARIO.findUnique({
+          where: { id_usuario: targetUserId },
+        });
+        if (!userExists) {
+          throw new NotFoundException('Usuário não encontrado');
+        }
+
         // Admin pesquisando usuário específico
         whereClause = { CARTELA: { some: { id_usuario: targetUserId } } };
       } else {

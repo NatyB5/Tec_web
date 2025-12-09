@@ -165,7 +165,6 @@ export default function ProfilePage() {
       <div className="profile-container">
         <div className="profile-header">
           <h1 className="title">Meu Perfil</h1>
-          <p>Gerencie suas informações e acompanhe seu histórico</p>
         </div>
 
         <div className="profile-content">

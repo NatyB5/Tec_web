@@ -33,6 +33,7 @@
     padding: 1rem 2rem;
     background: linear-gradient(135deg, #1B6F09 0%, #4d7c0f 100%);
     color: white;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -599,7 +600,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 40px;
+    padding: 0;
     box-sizing: border-box;
     position: relative;
     min-height: 120px;
@@ -610,7 +611,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: auto;
+    width: 100%;
 }
 
 .navbar-logo {
@@ -938,7 +939,7 @@ body {
 }
 
 .user-balance {
-    color: var(--primary-green);
+    color: var(--lime-bright);
     font-weight: bold;
 }
 

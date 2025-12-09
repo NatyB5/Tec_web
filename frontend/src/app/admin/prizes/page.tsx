@@ -135,7 +135,7 @@ export default function AdminPrizesPage() {
             <div className="navbar-content" style={{ width: "100%" }}>
                 <img src="/bingo-logo.png" alt="logo" className="navbar-logo" />
                 <div className="navbar-links">
-                    <a className="nav-links">Gerenciar Prêmios</a>
+                    <a className="nav-links" style={{ color: 'white' }}>Gerenciar Prêmios</a>
                 </div>
                 <div style={{ marginLeft: "auto", paddingRight: "40px", display: 'flex', gap: '10px' }}>
                     <Button variant="primary" onClick={() => router.push('/admin')}>

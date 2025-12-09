@@ -29,7 +29,13 @@ export default function EstatisticasPage() {
       const contentType = res.headers.get("content-type") || "";
       const isJson = contentType.includes("application/json");
       const body = isJson ? await res.json() : await res.text();
-      setter({ ok: res.ok, status: res.status, data: body });
+
+      if (!res.ok) {
+        const errorMessage = isJson && body.message ? body.message : "Erro ao buscar dados";
+        setter({ ok: false, status: res.status, data: null, error: errorMessage });
+      } else {
+        setter({ ok: true, status: res.status, data: body });
+      }
     } catch (e: any) {
       setter({ ok: false, status: 0, data: null, error: e?.message || "Erro desconhecido" });
     } finally {
@@ -134,6 +140,11 @@ export default function EstatisticasPage() {
               <div className={styles.reportCardContent}>
                 {loading && <p className={styles.timelineTime}>Carregando...</p>}
                 {!loading && !report1 && <p className={styles.timelineTime}>Sem dados.</p>}
+                {!loading && report1 && !report1.ok && (
+                  <p className={styles.timelineTime} style={{ color: 'red', fontWeight: 'bold' }}>
+                    {report1.error || "Erro ao buscar dados."}
+                  </p>
+                )}
                 {report1 && report1.data && typeof report1.data !== 'string' && (
                   <>
                     <div className={styles.statsGrid}>

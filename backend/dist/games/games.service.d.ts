@@ -13,37 +13,37 @@ export declare class GamesService {
     }>;
     private generateCardNumbers;
     create(createGameDto: CreateGameDto): Prisma.Prisma__JOGOClient<{
-        id_jogo: number;
         data_hora: Date;
         preco_cartela: Prisma.Decimal;
+        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, Prisma.PrismaClientOptions>;
-    findAll(): Prisma.PrismaPromise<({
+    findAll(): Promise<{
+        status: string;
         SALA: {
             nome: string;
         };
-    } & {
-        id_jogo: number;
+        _count: {
+            CARTELA: number;
+        };
         data_hora: Date;
         preco_cartela: Prisma.Decimal;
+        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
-    })[]>;
+    }[]>;
     findOne(id: number): Promise<{
-        id_jogo: number;
         data_hora: Date;
         preco_cartela: Prisma.Decimal;
+        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }>;
     findOneWithDetails(id: number): Promise<{
-        _count: {
-            CARTELA: number;
-        };
         SALA: {
-            nome: string;
             id_sala: number;
+            nome: string;
             descricao: string | null;
         };
         NUMEROS_SORTEADOS: {
@@ -52,17 +52,20 @@ export declare class GamesService {
             id_numero_sorteado: number;
             numero: number;
         }[];
+        _count: {
+            CARTELA: number;
+        };
     } & {
-        id_jogo: number;
         data_hora: Date;
         preco_cartela: Prisma.Decimal;
+        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }>;
     update(id: number, updateGameDto: UpdateGameDto): Promise<{
-        id_jogo: number;
         data_hora: Date;
         preco_cartela: Prisma.Decimal;
+        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }>;

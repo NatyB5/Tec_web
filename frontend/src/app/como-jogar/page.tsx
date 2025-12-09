@@ -27,7 +27,7 @@ export default function InstrucoesBingo() {
           >
             ← Voltar
           </Button>
-          <h1 className="title" style={{ color: 'white', marginTop: '20px' }}>Como jogar nosso bingo online?</h1>
+          <h1 className="title" style={{ color: 'var(--primary-green)', marginTop: '20px' }}>Como jogar nosso bingo online?</h1>
           <p style={{ color: '#e2f67e', fontSize: '1.2em' }}>Em poucos passos você pode se divertir e concorrer a prêmios!</p>
         </div>
 

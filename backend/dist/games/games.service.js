@@ -73,10 +73,26 @@ let GamesService = class GamesService {
             }
         });
     }
-    findAll() {
-        return this.prisma.jOGO.findMany({
+    async findAll() {
+        const games = await this.prisma.jOGO.findMany({
             orderBy: { data_hora: 'asc' },
-            include: { SALA: { select: { nome: true } } }
+            include: {
+                SALA: { select: { nome: true } },
+                _count: { select: { CARTELA: true } }
+            }
+        });
+        return games.map(game => {
+            let status = 'AGUARDANDO';
+            if (game.id_usuario_vencedor) {
+                status = 'CONCLUÍDO';
+            }
+            else if (new Date() > new Date(game.data_hora)) {
+                status = 'EM ANDAMENTO';
+            }
+            return {
+                ...game,
+                status
+            };
         });
     }
     async findOne(id) {

@@ -74,9 +74,9 @@ export default function AdminDashboard() {
                         />
 
                         <div className="navbar-links">
-                            <a className="nav-links">Painel de Administração</a>
-                            <a className="nav-links" onClick={() => router.push('/estatisticas')}>Relatórios</a>
-                            <a className="nav-links" onClick={() => router.push('/profile')}>Minha Conta</a>
+                            <a className="nav-links" style={{ color: 'white' }}>Painel de Administração</a>
+                            <a className="nav-links" onClick={() => router.push('/estatisticas')} style={{ color: 'white' }}>Relatórios</a>
+                            <a className="nav-links" onClick={() => router.push('/profile')} style={{ color: 'white' }}>Minha Conta</a>
                         </div>
 
                         <div style={{ marginLeft: "auto", paddingRight: "40px" }}>
