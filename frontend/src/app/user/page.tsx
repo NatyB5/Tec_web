@@ -192,6 +192,18 @@ export default function UserPage() {
                                 )}
                             </div>
                         </div>
+
+                        <div className={styles.userCard}> 
+                            <div className={styles.cardHeader}> 
+                                <h2 className={styles.cardTitle}>Estatísticas</h2> 
+                            </div>
+                            <div className={styles.cardContent}> 
+                                <p>Visualize relatórios e métricas do sistema.</p>
+                                <Button variant="primary" onClick={() => router.push('/estatisticas')}>
+                                    Abrir Estatísticas
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>

@@ -102,7 +102,7 @@ export default function ReportsPage() {
                 <nav className='navbar'>
                     <div className={styles.navbarReportsPage}>
                         <div className={styles.navbarLinksLeftReports}>
-                            <a className="nav-links" onClick={() => router.push('/user')}>Minha Conta</a>
+                            <a className="nav-links" onClick={() => router.push('/profile')}>Minha Conta</a>
                             <a className="nav-links" onClick={() => router.push('/rooms')}>Salas</a>
                         </div>
 

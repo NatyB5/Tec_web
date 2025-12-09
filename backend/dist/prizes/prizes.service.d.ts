@@ -11,11 +11,11 @@ export declare class PrizesService {
             data_hora: Date;
         };
     } & {
+        id_usuario: number | null;
+        id_jogo: number;
         descricao: string;
         valor: Prisma.Decimal;
         id_premio: number;
-        id_usuario: number | null;
-        id_jogo: number;
     }>;
     findAll(): Prisma.PrismaPromise<({
         JOGO: {
@@ -25,52 +25,52 @@ export declare class PrizesService {
             };
         };
         USUARIO: {
-            id_usuario: number;
             nome: string;
             email: string;
+            id_usuario: number;
         };
     } & {
+        id_usuario: number | null;
+        id_jogo: number;
         descricao: string;
         valor: Prisma.Decimal;
         id_premio: number;
-        id_usuario: number | null;
-        id_jogo: number;
     })[]>;
     findOne(id: number): Promise<{
         JOGO: {
             id_jogo: number;
             data_hora: Date;
+            preco_cartela: Prisma.Decimal;
             id_sala: number;
             id_usuario_vencedor: number | null;
-            preco_cartela: Prisma.Decimal;
         };
         USUARIO: {
-            id_usuario: number;
             nome: string;
+            id_usuario: number;
         };
     } & {
+        id_usuario: number | null;
+        id_jogo: number;
         descricao: string;
         valor: Prisma.Decimal;
         id_premio: number;
-        id_usuario: number | null;
-        id_jogo: number;
     }>;
     update(id: number, updatePrizeDto: UpdatePrizeDto): Promise<{
         USUARIO: {
             nome: string;
         };
     } & {
+        id_usuario: number | null;
+        id_jogo: number;
         descricao: string;
         valor: Prisma.Decimal;
         id_premio: number;
-        id_usuario: number | null;
-        id_jogo: number;
     }>;
     remove(id: number): Promise<{
+        id_usuario: number | null;
+        id_jogo: number;
         descricao: string;
         valor: Prisma.Decimal;
         id_premio: number;
-        id_usuario: number | null;
-        id_jogo: number;
     }>;
 }

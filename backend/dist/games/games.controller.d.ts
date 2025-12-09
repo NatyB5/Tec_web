@@ -11,9 +11,9 @@ export declare class GamesController {
     private readonly gameLogic;
     constructor(gamesService: GamesService, gameLogic: GameLogicService);
     create(createGameDto: CreateGameDto): import(".prisma/client").Prisma.Prisma__JOGOClient<{
+        id_jogo: number;
         data_hora: Date;
         preco_cartela: import("@prisma/client/runtime/library").Decimal;
-        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
@@ -22,23 +22,23 @@ export declare class GamesController {
             nome: string;
         };
     } & {
+        id_jogo: number;
         data_hora: Date;
         preco_cartela: import("@prisma/client/runtime/library").Decimal;
-        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     })[]>;
     findOne(id: string): Promise<{
+        id_jogo: number;
         data_hora: Date;
         preco_cartela: import("@prisma/client/runtime/library").Decimal;
-        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }>;
     update(id: string, updateGameDto: UpdateGameDto): Promise<{
+        id_jogo: number;
         data_hora: Date;
         preco_cartela: import("@prisma/client/runtime/library").Decimal;
-        id_jogo: number;
         id_sala: number;
         id_usuario_vencedor: number | null;
     }>;
@@ -48,13 +48,13 @@ export declare class GamesController {
         cards: any[];
     }>;
     stream(gameIdStr: string, userId: string): Observable<MessageEvent>;
-    startGame(id: string): {
+    startGame(id: string): Promise<{
         error: string;
         ok?: undefined;
     } | {
         ok: boolean;
         error?: undefined;
-    };
+    }>;
     stopGame(id: string): {
         ok: boolean;
     };

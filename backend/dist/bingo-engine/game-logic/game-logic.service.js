@@ -44,7 +44,10 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
         try {
             const user = await this.usersService.findById(userId);
             const dbCards = await this.cardsService.getUserCards(userId, gameId);
-            const matrixCards = dbCards.map(c => this.convertDbListToMatrix(c.NUMEROS_CARTELA.map(n => n.numero)));
+            const matrixCards = dbCards.map(c => ({
+                id: c.id_cartela,
+                matrix: this.convertDbListToMatrix(c.NUMEROS_CARTELA.map(n => n.numero))
+            }));
             gameState.activePlayers.set(userId, { user, cards: matrixCards });
             this.logger.log(`User ${user.nome} entrou no Jogo ${gameId} com ${matrixCards.length} cartelas.`);
             this.emitEvent(gameId, 'init', {
@@ -55,7 +58,7 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
             this.logger.error(`Erro conexão user ${userId}: ${error.message}`);
         }
     }
-    startGame(gameId) {
+    async startGame(gameId) {
         let state = this.runningGames.get(gameId);
         if (!state) {
             state = this.createInitialState();
@@ -63,9 +66,14 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
         }
         if (state.drawInterval)
             return { error: 'Jogo já rodando' };
+        const prizesCount = await this.prisma.pREMIOS.count({ where: { id_jogo: gameId } });
+        if (prizesCount === 0) {
+            this.logger.warn(`⚠️ Jogo ${gameId} iniciado SEM PRÊMIOS! O jogo não irá parar automaticamente.`);
+        }
         if (state.numberPool.length === 0) {
             state.numberPool = this.shuffledPool(75);
             state.drawnNumbers.clear();
+            state.winningCards.clear();
             this.emitEvent(gameId, 'reset', {});
         }
         this.logger.log(`Iniciando sorteio Jogo ${gameId}`);
@@ -105,8 +113,13 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
     async checkForBingoWinners(gameId, state, lastNumber) {
         for (const [userId, data] of state.activePlayers.entries()) {
             for (const card of data.cards) {
-                if (this.checkBingo(card, state.drawnNumbers)) {
-                    await this.assignPrizeToWinner(gameId, userId, data.user.nome);
+                if (state.winningCards.has(card.id))
+                    continue;
+                if (this.checkBingo(card.matrix, state.drawnNumbers)) {
+                    const won = await this.assignPrizeToWinner(gameId, userId, data.user.nome);
+                    if (won) {
+                        state.winningCards.add(card.id);
+                    }
                 }
             }
         }
@@ -122,7 +135,7 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
             }
         });
         if (availablePrizes.length === 0) {
-            return;
+            return false;
         }
         const prizeToGive = availablePrizes[0];
         const result = await this.prisma.pREMIOS.updateMany({
@@ -147,7 +160,9 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
                 this.stopGame(gameId);
                 this.persistGameEnd(gameId, userId);
             }
+            return true;
         }
+        return false;
     }
     async persistGameEnd(gameId, lastWinnerId) {
         try {
@@ -172,7 +187,13 @@ let GameLogicService = GameLogicService_1 = class GameLogicService {
         catch (e) { }
     }
     createInitialState() {
-        return { numberPool: [], drawnNumbers: new Set(), drawInterval: null, activePlayers: new Map() };
+        return {
+            numberPool: [],
+            drawnNumbers: new Set(),
+            drawInterval: null,
+            activePlayers: new Map(),
+            winningCards: new Set()
+        };
     }
     checkBingo(card, drawn) {
         const size = 5;

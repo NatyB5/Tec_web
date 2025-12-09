@@ -32,6 +32,7 @@ export default function GamePage() {
   // --- ESTADOS ---
   const [loading, setLoading] = useState(true);
   const [gameStatus, setGameStatus] = useState('Carregando...');
+  const [startTime, setStartTime] = useState<string | null>(null);
   const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]); 
   const [lastNumber, setLastNumber] = useState<number | null>(null);
   const [myCards, setMyCards] = useState<any[]>([]); // Cartelas do usuário
@@ -58,6 +59,7 @@ export default function GamePage() {
             }
           }
           setGameStatus(gameData.status || 'Ativo');
+          setStartTime(gameData.data_hora);
         }
 
         // B. Busca Cartelas do Usuário (CORREÇÃO AQUI) 🛠️
@@ -140,9 +142,14 @@ export default function GamePage() {
         {/* CABEÇALHO */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
           <Button variant="secondary" onClick={() => router.push('/rooms')}>Sair</Button>
-          <div>
+          <div style={{ textAlign: 'right' }}>
             <h1 style={{ margin: 0 }}>Sala #{gameId}</h1>
             <small>Status: {connectionStatus}</small>
+            {startTime && (
+              <div style={{ marginTop: '5px', fontWeight: 'bold', color: '#006400', fontSize: '1.1rem' }}>
+                Início: {new Date(startTime).toLocaleString('pt-BR')}
+              </div>
+            )}
           </div>
         </div>
 

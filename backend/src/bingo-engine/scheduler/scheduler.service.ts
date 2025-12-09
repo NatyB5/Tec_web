@@ -33,8 +33,8 @@ export class SchedulerService {
       for (const game of gamesToStart) {
         try {
           // --- CORREÇÃO AQUI ---
-          // startGame agora é síncrono. Não usamos .catch() nem await.
-          const result = this.gameLogicService.startGame(game.id_jogo);
+          // startGame agora é assíncrono.
+          const result = await this.gameLogicService.startGame(game.id_jogo);
 
           // Verificamos se o objeto retornado contém um erro
           if (result && result.error) {

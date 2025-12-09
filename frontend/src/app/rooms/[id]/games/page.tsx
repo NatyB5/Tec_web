@@ -202,7 +202,7 @@ export default function RoomGamesPage() {
           }
 
           .page-title {
-            color: #fff;
+            color: #1B6F09;
             font-size: 2rem;
             margin: 0;
           }
@@ -214,33 +214,37 @@ export default function RoomGamesPage() {
           }
 
           .game-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1rem;
             padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid #E2F67E;
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           }
 
           .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 20px rgba(27, 111, 9, 0.2);
+            border-color: #1B6F09;
           }
 
           .game-info h3 {
-            color: #fff;
+            color: #1B6F09;
             margin-top: 0;
             margin-bottom: 1rem;
             font-size: 1.5rem;
           }
 
           .game-details p {
-            color: rgba(255, 255, 255, 0.8);
+            color: #333;
             margin: 0.5rem 0;
+          }
+          
+          .game-details p strong {
+            color: #1B6F09;
           }
 
           .status-badge {
@@ -258,15 +262,16 @@ export default function RoomGamesPage() {
           .no-games {
             grid-column: 1 / -1;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
+            color: #666;
             padding: 3rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: white;
             border-radius: 1rem;
+            border: 2px dashed #E2F67E;
           }
 
           .loading {
             text-align: center;
-            color: #fff;
+            color: #1B6F09;
             font-size: 1.2rem;
             margin-top: 3rem;
           }

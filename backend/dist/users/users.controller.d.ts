@@ -7,40 +7,40 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     getProfile(req: AuthenticatedRequest): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: import("@prisma/client/runtime/library").Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: import("@prisma/client/runtime/library").Decimal;
     }>;
     updateProfile(req: AuthenticatedRequest, updateUserDto: UpdateUserDto): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
+        email: string;
+        id_usuario: number;
     }>;
     rechargeCredits(req: AuthenticatedRequest, rechargeCreditsDto: RechargeCreditsDto): Promise<{
         message: string;
         newBalance: import("@prisma/client/runtime/library").Decimal;
     }>;
     createByAdmin(createUserDto: CreateUserDto): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
     }>;
     findAll(): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: import("@prisma/client/runtime/library").Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: import("@prisma/client/runtime/library").Decimal;
     }[]>;
     findOne(id: number): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: import("@prisma/client/runtime/library").Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: import("@prisma/client/runtime/library").Decimal;
     }>;
     remove(id: number): Promise<void>;
 }

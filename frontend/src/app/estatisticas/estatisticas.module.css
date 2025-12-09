@@ -1,0 +1,117 @@
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #666;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #2d7a2d;
+  background: #1a5f1a;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.buttonDisabled {
+  background: #888;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.pre {
+  background: #0f1d10;
+  color: #cde6cd;
+  border: 1px solid #2d7a2d;
+  border-radius: 12px;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.card {
+  background: #122613;
+  border: 1px solid #2d7a2d;
+  border-radius: 12px;
+  padding: 18px;
+  color: #eaf6ea;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.metricBox {
+  background: #183a19;
+  border: 1px solid #2d7a2d;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: #b9d9b9;
+}
+
+.metricValue {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.th, .td {
+  border: 1px solid #2d7a2d;
+  padding: 10px;
+}
+
+.th {
+  background: #183a19;
+  text-align: left;
+}
+
+.empty {
+  color: #b9d9b9;
+  font-style: italic;
+}

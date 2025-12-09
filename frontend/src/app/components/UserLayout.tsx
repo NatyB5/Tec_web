@@ -129,6 +129,12 @@ export default function UserLayout({ children }: UserLayoutProps) {
               >
                 Como Jogar
               </a>
+              <a 
+                href="/estatisticas" 
+                className={`nav-link ${isActiveRoute('/estatisticas') ? 'active' : ''}`}
+              >
+                Relatórios
+              </a>
             </div>
 
             <div className="navbar-user">

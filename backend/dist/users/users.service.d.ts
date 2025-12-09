@@ -6,29 +6,29 @@ export declare class UsersService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(createUserDto: CreateUserDto, isAdmin: boolean): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
     }>;
     findAll(): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: Prisma.Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: Prisma.Decimal;
     }[]>;
     findById(id: number): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: Prisma.Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: Prisma.Decimal;
     }>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
+        email: string;
+        id_usuario: number;
     }>;
     remove(id: number): Promise<void>;
     rechargeCredits(userId: number, amount: number): Promise<{

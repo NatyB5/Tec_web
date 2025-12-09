@@ -14,17 +14,8 @@ interface UserProfile {
   creditos: number;
 }
 
-interface GameHistory {
-  id_jogo: number;
-  data_hora: string;
-  quantidade_cartelas: number;
-  valor_total: any;
-  status: string;
-}
-
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -96,18 +87,6 @@ export default function ProfilePage() {
             nome: userData.nome,
             email: userData.email
           });
-        }
-
-        // Carregar histórico de jogos (simulado - você precisará criar esta rota na API)
-        const historyResponse = await fetch(`${API_BASE}/users/me/games`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (historyResponse.ok) {
-          const historyData = await historyResponse.json();
-          setGameHistory(historyData);
         }
       } catch (error) {
         console.error('Erro ao carregar perfil:', error);
@@ -265,48 +244,13 @@ export default function ProfilePage() {
           </div>
 
           <div className="stats-card">
-            <h3>Estatísticas</h3>
+            <h3>Créditos</h3>
             <div className="stats-grid">
               <div className="stat-item">
-                <span className="stat-value">{profile?.creditos.toFixed(2)}</span>
-                <span className="stat-label">Créditos</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-value">{gameHistory.length}</span>
-                <span className="stat-label">Jogos Participados</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-value">
-                  {gameHistory.filter(game => game.status === 'concluído').length}
-                </span>
-                <span className="stat-label">Jogos Concluídos</span>
+                <span className="stat-value">R$ {profile?.creditos.toFixed(2)}</span>
+                <span className="stat-label">Saldo Disponível</span>
               </div>
             </div>
-          </div>
-
-          <div className="history-card">
-            <h3>Histórico de Jogos</h3>
-            {gameHistory.length === 0 ? (
-              <p className="empty-history">Nenhum jogo participado ainda.</p>
-            ) : (
-              <div className="history-list">
-                {gameHistory.map((game) => (
-                  <div key={game.id_jogo} className="history-item">
-                    <div className="game-info">
-                      <span className="game-id">Jogo #{game.id_jogo}</span>
-                      <span className="game-date">
-                        {new Date(game.data_hora).toLocaleDateString('pt-BR')}
-                      </span>
-                    </div>
-                    <div className="game-details">
-                      <span>{game.quantidade_cartelas} cartelas</span>
-                      <span>R$ {formatDecimal(game.valor_total).toFixed(2)}</span>
-                      <span className={`status ${game.status}`}>{game.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

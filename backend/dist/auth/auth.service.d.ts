@@ -12,16 +12,16 @@ export declare class AuthService {
         access_token: string;
     }>;
     register(createUserDto: CreateUserDto): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
     }>;
     getUserFromToken(userId: number): Promise<{
-        id_usuario: number;
-        email: string;
         nome: string;
-        creditos: import("@prisma/client/runtime/library").Decimal;
+        email: string;
         is_admin: boolean;
+        id_usuario: number;
+        creditos: import("@prisma/client/runtime/library").Decimal;
     }>;
 }
