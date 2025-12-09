@@ -75,6 +75,8 @@ export default function AdminDashboard() {
 
                         <div className="navbar-links">
                             <a className="nav-links">Painel de Administração</a>
+                            <a className="nav-links" onClick={() => router.push('/estatisticas')}>Relatórios</a>
+                            <a className="nav-links" onClick={() => router.push('/profile')}>Minha Conta</a>
                         </div>
 
                         <div style={{ marginLeft: "auto", paddingRight: "40px" }}>
@@ -219,4 +221,33 @@ export default function AdminDashboard() {
             </main>
         </div>
     );
+                    <div style={{
+                        backgroundColor: '#1a5f1a',
+                        padding: '40px 30px',
+                        borderRadius: '12px',
+                        color: 'white',
+                        textAlign: 'center',
+                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.3)',
+                        border: '2px solid #2d7a2d',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                    }}
+                    onClick={() => router.push('/estatisticas')}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+                    }}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '1.5em' }}>
+                            📊 Estatísticas
+                        </h3>
+                        <p style={{ margin: 0, opacity: 0.9 }}>
+                            Visualize relatórios e métricas do sistema
+                        </p>
+                    </div>
+
 }

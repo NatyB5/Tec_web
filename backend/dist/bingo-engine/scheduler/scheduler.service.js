@@ -33,7 +33,7 @@ let SchedulerService = SchedulerService_1 = class SchedulerService {
             this.logger.log(`Encontrados ${gamesToStart.length} jogos para iniciar.`);
             for (const game of gamesToStart) {
                 try {
-                    const result = this.gameLogicService.startGame(game.id_jogo);
+                    const result = await this.gameLogicService.startGame(game.id_jogo);
                     if (result && result.error) {
                         this.logger.warn(`Jogo ${game.id_jogo}: ${result.error}`);
                     }

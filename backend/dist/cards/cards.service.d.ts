@@ -20,9 +20,9 @@ export declare class CardsService {
             };
         };
         USUARIO: {
-            id_usuario: number;
-            email: string;
             nome: string;
+            email: string;
+            id_usuario: number;
         };
         NUMEROS_CARTELA: {
             numero: number;
@@ -41,9 +41,9 @@ export declare class CardsService {
             };
         };
         USUARIO: {
-            id_usuario: number;
-            email: string;
             nome: string;
+            email: string;
+            id_usuario: number;
         };
         NUMEROS_CARTELA: {
             numero: number;

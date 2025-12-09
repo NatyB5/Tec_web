@@ -14,7 +14,8 @@ interface GameState {
   numberPool: number[];
   drawnNumbers: Set<number>;
   drawInterval: NodeJS.Timeout | null;
-  activePlayers: Map<number, { user: any; cards: number[][][] }>;
+  activePlayers: Map<number, { user: any; cards: { id: number; matrix: number[][] }[] }>;
+  winningCards: Set<number>;
 }
 
 @Injectable()
@@ -55,9 +56,10 @@ export class GameLogicService {
       const user = await this.usersService.findById(userId);
       const dbCards = await this.cardsService.getUserCards(userId, gameId);
 
-      const matrixCards = dbCards.map(c => 
-        this.convertDbListToMatrix(c.NUMEROS_CARTELA.map(n => n.numero))
-      );
+      const matrixCards = dbCards.map(c => ({
+        id: c.id_cartela,
+        matrix: this.convertDbListToMatrix(c.NUMEROS_CARTELA.map(n => n.numero))
+      }));
 
       gameState.activePlayers.set(userId, { user, cards: matrixCards });
       this.logger.log(`User ${user.nome} entrou no Jogo ${gameId} com ${matrixCards.length} cartelas.`);
@@ -72,7 +74,7 @@ export class GameLogicService {
   }
 
   // --- CONTROLE ---
-  startGame(gameId: number) {
+  async startGame(gameId: number) {
     let state = this.runningGames.get(gameId);
     if (!state) {
       state = this.createInitialState();
@@ -81,10 +83,17 @@ export class GameLogicService {
 
     if (state.drawInterval) return { error: 'Jogo já rodando' };
 
+    // Verifica se existem prêmios cadastrados
+    const prizesCount = await this.prisma.pREMIOS.count({ where: { id_jogo: gameId } });
+    if (prizesCount === 0) {
+        this.logger.warn(`⚠️ Jogo ${gameId} iniciado SEM PRÊMIOS! O jogo não irá parar automaticamente.`);
+    }
+
     // Se pool vazio, reinicia
     if (state.numberPool.length === 0) {
        state.numberPool = this.shuffledPool(75);
        state.drawnNumbers.clear();
+       state.winningCards.clear();
        this.emitEvent(gameId, 'reset', {});
     }
 
@@ -137,18 +146,19 @@ export class GameLogicService {
     for (const [userId, data] of state.activePlayers.entries()) {
       
       // Itera sobre cartelas do jogador
-      // Usamos um for loop normal para poder usar 'await' se necessário, 
-      // mas como activePlayers está em memória, o loop é síncrono.
-      // A atribuição de prêmio é assíncrona, então fazemos fire-and-forget ou tratamos a Promise.
-      
       for (const card of data.cards) {
-        if (this.checkBingo(card, state.drawnNumbers)) {
+        // Se a cartela já ganhou, pula
+        if (state.winningCards.has(card.id)) continue;
+
+        if (this.checkBingo(card.matrix, state.drawnNumbers)) {
           
-          // Verificamos se esse jogador JÁ ganhou esse prêmio ou se a cartela já bateu?
-          // (Simplificação: vamos tentar atribuir prêmio sempre que bater. 
-          // A função assignPrize vai garantir que só atribui se houver prêmio vago)
+          // Tenta atribuir prêmio
+          const won = await this.assignPrizeToWinner(gameId, userId, data.user.nome);
           
-          await this.assignPrizeToWinner(gameId, userId, data.user.nome);
+          if (won) {
+            // Marca a cartela como vencedora para não ganhar de novo
+            state.winningCards.add(card.id);
+          }
         }
       }
     }
@@ -156,7 +166,7 @@ export class GameLogicService {
 
   // --- NOVA LÓGICA DE PRÊMIOS ---
   
-  private async assignPrizeToWinner(gameId: number, userId: number, userName: string) {
+  private async assignPrizeToWinner(gameId: number, userId: number, userName: string): Promise<boolean> {
     // 1. Busca prêmios do jogo que ainda não têm dono (id_usuario IS NULL)
     // Ordena por VALOR decrescente (o maior primeiro)
     const availablePrizes = await this.prisma.pREMIOS.findMany({
@@ -171,7 +181,7 @@ export class GameLogicService {
 
     // Se não tem prêmio, o jogo já deveria ter acabado, ou esse jogador bateu tarde demais.
     if (availablePrizes.length === 0) {
-      return; 
+      return false; 
     }
 
     // 2. Pega o melhor prêmio disponível
@@ -208,7 +218,9 @@ export class GameLogicService {
         this.stopGame(gameId);
         this.persistGameEnd(gameId, userId); // Grava o último vencedor como "vencedor do jogo" para fins de histórico
       }
+      return true;
     }
+    return false;
   }
 
   // --- PERSISTÊNCIA ---
@@ -238,7 +250,13 @@ export class GameLogicService {
 
   // --- HELPERS (Matriz, Shuffle, etc - Sem alterações) ---
   private createInitialState(): GameState {
-    return { numberPool: [], drawnNumbers: new Set(), drawInterval: null, activePlayers: new Map() };
+    return { 
+        numberPool: [], 
+        drawnNumbers: new Set(), 
+        drawInterval: null, 
+        activePlayers: new Map(),
+        winningCards: new Set()
+    };
   }
 
   private checkBingo(card: number[][], drawn: Set<number>): boolean {
